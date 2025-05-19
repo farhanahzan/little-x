@@ -9,7 +9,6 @@ import CheckProfile from "@/ds/molecules/check-profile-dialog";
 import { ProtectedRoute } from "@/ds/wrappers/prtoected-auth";
 import { useAuth } from "@/modules/users/hooks/use-auth";
 import { useTweets } from "../hooks";
-import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { BirdIcon, HomeIcon, SettingsIcon } from "lucide-react";
 import {

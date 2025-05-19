@@ -29,7 +29,7 @@ const NewDashboardLeftRightSidebar = (
       {/* Mobile navigation bar - only visible on small screens */}
       {mobileNavBar}
 
-      <div className="min-h-screen flex max-w-[85.375rem] mx-auto">
+      <div className="min-h-screen flex max-w-[1366px] mx-auto">
         {/* Left sidebar - hidden on mobile */}
         <aside
           className={`${sidebarWidth} hidden md:block border-x border-border bg-sidebar-background`}

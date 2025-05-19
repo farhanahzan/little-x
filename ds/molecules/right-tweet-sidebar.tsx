@@ -123,7 +123,7 @@ const RightTweetSidebar = ({
             </Button>
           )}
         </div>
-        <div className="space-y-3 h-[17.5rem] overflow-y-auto pl-4 pr-2">
+        <div className="space-y-3 h-[30.5vh] overflow-y-auto pl-4 pr-2">
           {suggetions.map((user, index) => (
             <div key={index} className="flex items-center justify-between">
               <div className="flex items-center gap-x-3">
@@ -166,7 +166,7 @@ const RightTweetSidebar = ({
             </Button>
           )}
         </div>
-        <div className="space-y-3 h-[17.5rem] overflow-y-auto pl-4 pr-2">
+        <div className="space-y-3 h-[30.5vh] overflow-y-auto pl-4 pr-2">
           {following &&
             following.map((user, index) => (
               <div key={index} className="flex items-center justify-between">
