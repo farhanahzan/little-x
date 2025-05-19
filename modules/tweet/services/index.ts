@@ -80,12 +80,8 @@ export const TweetApi = {
       username: username,
     };
   },
-  loadUserProfiles: async () => {
-    // First get the current user's profile to get following
-    const profileResponse = await private_api.post("/walker/get_profile", {});
-    const profile = profileResponse.data?.reports?.[0] || [];
-    const following = profile.followers || [];
 
+  loadAllTheUserProfiles: async () => {
     // Then get all users
     const response = await private_api.post("/walker/load_user_profiles", {});
     const reports = response.data?.reports;
@@ -93,18 +89,28 @@ export const TweetApi = {
       Array.isArray(reports) && Array.isArray(reports[0]) ? reports[0] : [];
 
     // Map and filter users that are not already followed
-    const users: User[] = data
-      .map((entry: any) => ({
-        id: entry?.id,
-        username: entry?.name ?? "",
-      }))
-      .filter(
-        (user: User) =>
-          user.username !== "" &&
-          !following.some((follower: User) => follower.id === user.id)
-      );
-
+    const users: User[] = data.map((entry: any) => ({
+      id: entry?.id,
+      username: entry?.name ?? "",
+    }));
     return users;
+  },
+
+  loadUserProfiles: async () => {
+    // First get the current user's profile to get following
+
+    const profile = await TweetApi.getProfile();
+    const following = profile.following || [];
+
+    const users = await TweetApi.loadAllTheUserProfiles();
+    // Map and filter users that are not already followed
+    const filterUsers: User[] = users.filter(
+      (user: User) =>
+        user.username !== "" &&
+        !following.some((follower: User) => follower.id === user.id)
+    );
+
+    return filterUsers;
   },
 
   getProfile: async () => {
@@ -122,6 +128,17 @@ export const TweetApi = {
   },
 
   updateProfile: async (username: string) => {
+    //Get all the profiles
+    const allProfiles = await TweetApi.loadAllTheUserProfiles();
+    // Check for same username exits or not
+    const checkDuplicateUsername = allProfiles.some(
+      (item) => item.username.toLowerCase() === username.toLowerCase()
+    );
+    if (checkDuplicateUsername) {
+      // Return an error message if the username exists
+      return { error: "Username already exists" };
+    }
+
     const response = await private_api.post("/walker/update_profile", {
       new_username: username,
     });

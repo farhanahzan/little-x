@@ -96,9 +96,9 @@ const MainFeed = ({
         <div className="flex-1 overflow-y-auto">
           <div className="p-4 space-y-6">
             {activeData.length > 0 ? (
-              activeData.map((tweet) => (
+              activeData.map((tweet, index) => (
                 <TweetCard
-                  key={tweet.id}
+                  key={tweet.id + index}
                   id={tweet.id}
                   username={tweet.username}
                   content={tweet.content}

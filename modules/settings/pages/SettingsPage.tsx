@@ -35,13 +35,11 @@ export const metadata: Metadata = {
 };
 const SettingsPage = () => {
   const { profile, userProfiles, items: feeds, isLoading } = useTweets();
-
   const { data, logout } = useAuth();
   const dispatch = useAppDispatch();
   const navigation = useAppNavigation();
   const currentTab = navigation.getQueryParams().tab || "home";
   const currentPath = navigation.getCurrentPath();
-
 
   const userData = {
     username: profile?.user?.username || "",
@@ -103,7 +101,7 @@ const SettingsPage = () => {
   };
 
   // If profile not set up, show dialog
-  if (userData.username === "") {
+  if (profile?.user?.username === "") {
     return (
       <ProtectedRoute>
         <CheckProfile open={true} isLoading={isLoading} />
@@ -138,7 +136,10 @@ const SettingsPage = () => {
           />
         }
         main={
-          <div className="py-8 mx-w-xl lg:max-w-2xl mx-auto px-4">
+          <div className="my-auto max-w-xl lg:max-w-2xl mx-auto flex flex-col items-center px-4">
+            <div className="py-6">
+              <h2 className="text-xl font-bold">Settings</h2>
+            </div>
             <ProfileSection />
           </div>
         }

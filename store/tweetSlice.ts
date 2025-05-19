@@ -18,7 +18,7 @@ import {
   updateUserProfileAction,
 } from "@/modules/tweet";
 import { cosineSimilarity } from "@/modules/tweet/utils";
-
+import { toast, useToast } from "@/ds/atoms/hooks/use-toast";
 export type User = {
   id: string;
   username: string;
@@ -111,6 +111,11 @@ export const tweetSlice = createSlice({
         { ...action.payload, username: state.profile.user.username },
         ...state.items,
       ];
+      toast({
+        title: "Success!",
+        description: state.successMessage,
+        duration: 5000,
+      });
     });
     builder.addCase(createTweetAction.rejected, (state, action) => {
       state.isLoading = false;
@@ -167,6 +172,11 @@ export const tweetSlice = createSlice({
       state.items = state.items.map((tweet) =>
         tweet.id === action.payload.id ? { ...tweet, ...action.payload } : tweet
       );
+      toast({
+        title: "Success!",
+        description: state.successMessage,
+        duration: 5000,
+      });
     });
 
     builder.addCase(updateTweetAction.rejected, (state, action) => {
@@ -186,6 +196,11 @@ export const tweetSlice = createSlice({
       state.success = true;
       state.successMessage = "Tweet deleted successfully";
       state.items = state.items.filter((item) => item.id !== action.payload);
+      toast({
+        title: "Success!",
+        description: state.successMessage,
+        duration: 5000,
+      });
     });
     builder.addCase(deleteTweetAction.rejected, (state, action) => {
       state.isLoading = false;
@@ -208,6 +223,12 @@ export const tweetSlice = createSlice({
           ? { ...tweet, likes: [...tweet.likes, action.payload.username] }
           : tweet
       );
+
+      toast({
+        title: "Success!",
+        description: state.successMessage,
+        duration: 5000,
+      });
     });
     builder.addCase(likeTweetAction.rejected, (state, action) => {
       state.isLoading = false;
@@ -234,7 +255,13 @@ export const tweetSlice = createSlice({
             }
           : tweet
       );
+      toast({
+        title: "Success!",
+        description: state.successMessage,
+        duration: 5000,
+      });
     });
+
     builder.addCase(removeLikeAction.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.payload as string;
@@ -281,6 +308,12 @@ export const tweetSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload as string;
       state.success = false;
+      toast({
+        title: "Error!",
+        description: action.payload as string,
+        variant: "destructive",
+        duration: 5000,
+      });
     });
     // follow
     builder.addCase(followRequestAction.pending, (state) => {
@@ -300,6 +333,12 @@ export const tweetSlice = createSlice({
       );
       state.success = true;
       state.successMessage = `You're following ${action.payload.username}`;
+
+      toast({
+        title: "Success!",
+        description: state.successMessage,
+        duration: 5000,
+      });
     });
     builder.addCase(followRequestAction.rejected, (state, action) => {
       state.isLoading = false;
@@ -324,6 +363,12 @@ export const tweetSlice = createSlice({
       state.userProfiles = [...state.userProfiles, action.payload];
       state.success = true;
       state.successMessage = `You're unfollowing ${action.payload.username}`;
+
+      toast({
+        title: "Success!",
+        description: state.successMessage,
+        duration: 5000,
+      });
     });
     builder.addCase(unFollowRequestAction.rejected, (state, action) => {
       state.isLoading = false;
@@ -335,7 +380,6 @@ export const tweetSlice = createSlice({
     builder.addCase(addCommentAction.fulfilled, (state, action) => {
       state.isLoading = false;
       state.success = true;
-      state.successMessage = `You Comment on ${action.payload.comment.username} post`;
       state.items = state.items.map((tweet) =>
         tweet.id === action.payload.tweetId
           ? {
@@ -351,6 +395,17 @@ export const tweetSlice = createSlice({
             }
           : tweet
       );
+      const tweetData = state.items.find(
+        (item) => item.id === action.payload.tweetId
+      );
+
+      state.successMessage = `You Comment on ${tweetData?.username}'s post`;
+
+      toast({
+        title: "Success!",
+        description: state.successMessage,
+        duration: 5000,
+      });
     });
     builder.addCase(addCommentAction.rejected, (state, action) => {
       state.isLoading = false;

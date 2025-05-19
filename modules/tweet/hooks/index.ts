@@ -58,7 +58,12 @@ export const useTweets = () => {
         : {
             content: error,
             status: "error",
-            time: new Date(),
+            time: new Date().toLocaleTimeString("en-US", {
+              hour: "numeric",
+              minute: "2-digit",
+              second: undefined,
+              hour12: true,
+            }),
           };
 
       localStorageUtil.setItem(APP_KEYS.NOTIFICATIONS, [

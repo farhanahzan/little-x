@@ -145,6 +145,9 @@ export const updateUserProfileAction = createAsyncThunk(
     try {
       const response = await TweetApi.updateProfile(username);
 
+      if ("error" in response) {
+        return rejectWithValue(response.error);
+      }
       return response;
     } catch (error) {
       return rejectWithValue(

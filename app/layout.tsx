@@ -20,10 +20,14 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <Toaster />
+        </Providers>
       </body>
     </html>
   );
 }
 
 import "./globals.css";
+import { Toaster } from "@/ds/atoms/toaster";

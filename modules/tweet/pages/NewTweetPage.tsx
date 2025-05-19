@@ -40,7 +40,6 @@ const NewTweetPage = () => {
     searchResult,
     isLoading,
   } = useTweets();
-
   const { data, logout } = useAuth();
   const dispatch = useAppDispatch();
   const navigation = useAppNavigation();
@@ -109,7 +108,7 @@ const NewTweetPage = () => {
   };
 
   // If profile not set up, show dialog
-  if (userData.username === "") {
+  if (profile?.user?.username === "") {
     return (
       <ProtectedRoute>
         <CheckProfile open={true} isLoading={isLoading} />
