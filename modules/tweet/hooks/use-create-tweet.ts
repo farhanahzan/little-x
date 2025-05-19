@@ -14,7 +14,7 @@ interface UseTweetFormProps {
   tweetId?: string;
 }
 const formSchema = z.object({
-  content: z.string(),
+  content: z.string().nonempty("Content cannot be empty"),
 });
 
 type FormValues = z.infer<typeof formSchema>;
